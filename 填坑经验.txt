@@ -1,0 +1,41 @@
+indexed 数据库
+
+1.所有的操作都要基于数据库连接：
+	var request = window.indexedDB.open(dbConfig.name,version)(IDBOpenDBRequest 对象)
+	
+	存储结构的变化要在request.onupgradeneeded() 的函数中定义
+	
+	其余操作要在request.onsuccess() 的函数中定义
+
+	request的创建和onupgradeneeded、onsuccess、onerror函数的定义必须连续，中间不能有其他代码，不能将request返回后为其设置这三个函数。
+	
+
+2. 创建事务transaction
+	跨越的对象存储空间不存在时，会报错。（.transtation()函数第一个参数表示跨越的对象存储空间name数组）
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+MY API
+
+1. 创建打开数据库连接
+window.indexedDB.open(dbName,dbVersion)
+
+2. 创建对象存储空间
+	// 按照keyPath提供键（对象必须有一属性作为键值）
+	var objStore = db.createObjectStore("tableName",{keyPath:"id"});
+	
+	// 按照keyGenerate提供键
+	var objStore = db.createObjectStore("tableName",{autoIncrement:true})
