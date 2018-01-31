@@ -101,3 +101,22 @@ getFunc = function(tableName,key){
 	})
 	return result;
 }
+
+/**
+ * 获取指定存储空间的全部数据并进行处理
+ * @param {String} tableName 指定存储空间
+ * @param {Function} func 处理函数
+ */
+getAll = function(tableName,func){
+	var result ;
+	openDB(dbConfig.version,function(){
+		var openCursor = db.transaction(tableName).objectStore(tableName).openCursor();
+		openCursor.onsuccess=function(event){
+			var cursor = event.target.result;
+			if(cursor){
+				func(cursor);
+				cursor.continue();
+			}
+		}
+	})
+}
