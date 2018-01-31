@@ -101,3 +101,18 @@ getFunc = function(tableName,key){
 	})
 	return result;
 }
+
+/**
+ * 根据条件获取指定存储空间
+ * @param {String} tableName 存储空间
+ * @param {Object} param 查询条件
+ * @param {Object} func 回调函数
+ */
+getOneByIndex = function(tableName,param,func){
+	openDB(dbConfig.version,function(){
+		var index = db.transaction(tableName).objectStore(tableName).index(param.index);
+		index.get(param.value).onsuccess = function(event){
+			console.info(event.target.result);
+		}
+	})
+}
