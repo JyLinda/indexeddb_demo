@@ -14,8 +14,8 @@ initDB = function() {
 	request.onupgradeneeded = function() {
 		db = request.result;
 		dbConfig.version = db.version;
-		createUser();
-		createDept();
+		createUser(db);
+		createDept(db);
 	}
 }
 
@@ -33,14 +33,14 @@ openDB = function(version, callbackFunc) {
 		db = request.result;
 		dbConfig.version = db.version;
 		if(callbackFunc)
-			callbackFunc();
+			callbackFunc(db);
 	};
 
 	request.onupgradeneeded = function(event) {
 		db = event.target.result;
 		dbConfig.version = db.version;
 		if(callbackFunc)
-			callbackFunc();
+			callbackFunc(db);
 	}
 }
 

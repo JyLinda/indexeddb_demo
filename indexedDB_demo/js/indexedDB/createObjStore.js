@@ -1,7 +1,7 @@
 // 使用keyGenerate
 // 创建用户存储空间（自增key）
 		// user: id:唯一标识，name：姓名，email：邮箱
-function createUser(){
+function createUser(db){
 	var userStore = db.createObjectStore("user",{autoIncrement:true});
 	
 	userStore.createIndex("dept_index","dept");
