@@ -19,7 +19,7 @@ initDB = function() {
 	}
 }
 
-// 测试开启数据库
+// 开启数据库请求
 var request;
 openDB = function(version, callbackFunc) {
 	if(!version)
@@ -32,6 +32,9 @@ openDB = function(version, callbackFunc) {
 	request.onsuccess = function(event) {
 		db = request.result;
 		dbConfig.version = db.version;
+		
+		useDatabase();
+		
 		if(callbackFunc)
 			callbackFunc(db);
 	};
@@ -39,6 +42,9 @@ openDB = function(version, callbackFunc) {
 	request.onupgradeneeded = function(event) {
 		db = event.target.result;
 		dbConfig.version = db.version;
+		
+		useDatabase();
+		
 		if(callbackFunc)
 			callbackFunc(db);
 	}
@@ -48,6 +54,7 @@ openDB = function(version, callbackFunc) {
 deleteDB = function() {
 	window.indexedDB.deleteDatabase(dbConfig.name);
 }
+
 
 // 新增存储对象到指定的对象存储空间
 saveFunc = function(tableName, saveObj) {
@@ -121,7 +128,7 @@ getOneByIndex = function(tableName, indexName, indexValue, func) {
  */
 getListByIndex = function(tableName, indexName, func, range, sort) {
 	openDB(dbConfig.version, function() {
-		var indexReq = db.transaction(tableName).objectStore(tableName).index(indexName).openCursor(range, sort);
+		var cursorReq = db.transaction(tableName).objectStore(tableName).index(indexName).openCursor(range, sort);
 		cursorReq.onsuccess = function(event) {
 			var cursor = event.target.result;
 			if(cursor) {
